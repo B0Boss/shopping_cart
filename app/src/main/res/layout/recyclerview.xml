@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/image_recyler"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintStart_toEndOf="@+id/btn_cancel_recyler"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_launcher_background"
+        tools:srcCompat="@drawable/ic_launcher_background" />
+
+    <TextView
+        android:id="@+id/textView_name_recycler"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
+        android:text="TextView"
+        app:layout_constraintStart_toEndOf="@+id/image_recyler"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_price_recycler"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="38dp"
+        android:layout_marginTop="27dp"
+        android:text="TextView"
+        app:layout_constraintStart_toEndOf="@+id/image_recyler"
+        app:layout_constraintTop_toBottomOf="@+id/textView_name_recycler" />
+
+    <TextView
+        android:id="@+id/textView_num_recycler"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="124dp"
+        android:layout_marginTop="4dp"
+        android:text="TextView"
+        app:layout_constraintStart_toEndOf="@+id/image_recyler"
+        app:layout_constraintTop_toBottomOf="@+id/btn_plus_recyler" />
+
+    <Button
+        android:id="@+id/btn_cancel_recyler"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="X"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_plus_recyler"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:text="+"
+        app:layout_constraintStart_toEndOf="@+id/textView_name_recycler"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_minus_recyler"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:text="-"
+        app:layout_constraintStart_toEndOf="@+id/textView_price_recycler"
+        app:layout_constraintTop_toBottomOf="@+id/textView_num_recycler" />
+</androidx.constraintlayout.widget.ConstraintLayout>

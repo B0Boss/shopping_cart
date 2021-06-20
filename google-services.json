@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1043604071060",
+    "project_id": "shopping-car-dac29",
+    "storage_bucket": "shopping-car-dac29.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1043604071060:android:450b25a0ce6866fc2e4a81",
+        "android_client_info": {
+          "package_name": "com.example.shopping_cart"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1043604071060-d9c8hdvc5nflld08g61ptkk1f58aetlv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.shopping_cart",
+            "certificate_hash": "feb5c8e8f2101778dace19f3678c10ed9bb731db"
+          }
+        },
+        {
+          "client_id": "1043604071060-0r1ajusel2ggml08a2ie0bgb4cnl52ut.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfPT5Z6dMdAZ4k5pFA1niGYVNARyoLNhU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1043604071060-0r1ajusel2ggml08a2ie0bgb4cnl52ut.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
