@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.FileInputStream;
@@ -31,10 +32,12 @@ public class goodsActivity extends AppCompatActivity {
         TextView textView_content_goods = (TextView) findViewById(R.id.textView_content_goods);
         TextView textView_quantity_goods = (TextView) findViewById(R.id.textView_quantity_goods);
         EditText editText_num__goods = (EditText) findViewById(R.id.editText_num__goods);
+        ImageView imageView_index_goods = (ImageView) findViewById(R.id.imageView_index_goods);
 
         String id = getIntent().getStringExtra("id");
         num = Integer.parseInt(editText_num__goods.getText().toString());
         Map<String, String> goods = tool.readData(context, id);
+        imageView_index_goods.setImageBitmap(tool.readImage(context,id));
         textView_name_goods.setText(goods.get("name"));
         textView_price_goods.setText("價格 : " + goods.get("price"));
         textView_quantity_goods.setText("剩餘數量 : " + goods.get("quantity"));

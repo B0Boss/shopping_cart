@@ -81,7 +81,7 @@ public class carActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             if (item.size() !=0 ){
-//          holder.image_recycler.setImageResource();
+                holder.image_recycler.setImageBitmap(tool.readImage(context,item.get(position).get("id")));
                 holder.textView_name_recycler.setText(item.get(position).get("name"));
                 holder.textView_num_recycler.setText(item.get(position).get("num"));
                 item.get(position).put("totalPrice",""+Integer.parseInt(item.get(position).get("price"))*Integer.parseInt(item.get(position).get("num")));
@@ -90,7 +90,7 @@ public class carActivity extends AppCompatActivity {
                     int totalPrice = 0;
                     for (Map data : item)
                         totalPrice += Integer.parseInt(data.get("totalPrice").toString());
-                    textView_total_cart.setText("總共 : " + String.valueOf(totalPrice));
+                    textView_total_cart.setText("總共 : " + totalPrice);
                 }
                 holder.btn_plus_recycler.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -125,7 +125,7 @@ public class carActivity extends AppCompatActivity {
                         int totalPrice = 0;
                         for (Map data : item)
                             totalPrice += Integer.parseInt(data.get("totalPrice").toString());
-                        textView_total_cart.setText("總共 : " + String.valueOf(totalPrice));
+                        textView_total_cart.setText("總共 : " + totalPrice);
                     }
                 });
             }else textView_total_cart.setText("");
