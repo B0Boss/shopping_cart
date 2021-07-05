@@ -17,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,17 +40,18 @@ public class carActivity extends AppCompatActivity {
         setContentView(R.layout.activity_car);
 
         textView_total_cart =(TextView)findViewById(R.id.textView_total_cart);
+        recyclerAdapter =new MyListAdapter();
         recycleview = (RecyclerView)findViewById(R.id.recycleview);
         recycleview.setLayoutManager(new LinearLayoutManager(context));
         recycleview.addItemDecoration(new DividerItemDecoration(context,DividerItemDecoration.VERTICAL));
-        recyclerAdapter =new MyListAdapter();
         recycleview.setAdapter(recyclerAdapter);
         for (String str:selectedGoods) {
             String[] pairs = str.split(":");
             String id =pairs[0];
             num =pairs[1];
-            Map map =tool.readData(context,id);
-            map.put("num",num);map.remove("quantity");map.remove("content");
+            Map map =new Gson().fromJson(tool.readData(context,id),Map.class);
+            map.put("id",id);map.put("num",num);map.remove("quantity");map.remove("content");
+            map.put("price",String.valueOf((int)(double)(map.get("price"))));
             item.add(map);
         }
 
@@ -84,6 +87,7 @@ public class carActivity extends AppCompatActivity {
                 holder.image_recycler.setImageBitmap(tool.readImage(context,item.get(position).get("id")));
                 holder.textView_name_recycler.setText(item.get(position).get("name"));
                 holder.textView_num_recycler.setText(item.get(position).get("num"));
+                Log.d("Tag",item.get(position).get("price"));
                 item.get(position).put("totalPrice",""+Integer.parseInt(item.get(position).get("price"))*Integer.parseInt(item.get(position).get("num")));
                 holder.textView_price_recycler.setText(item.get(position).get("totalPrice"));
                 if (item.get(item.size()-1).get("totalPrice") != null){

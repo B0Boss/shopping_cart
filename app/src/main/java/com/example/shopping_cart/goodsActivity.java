@@ -2,6 +2,7 @@ package com.example.shopping_cart;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +13,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -19,7 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class goodsActivity extends AppCompatActivity {
-    private Context context = this;
+    private final Context context = this;
     private int num;
 
     @Override
@@ -36,9 +39,9 @@ public class goodsActivity extends AppCompatActivity {
 
         String id = getIntent().getStringExtra("id");
         num = Integer.parseInt(editText_num__goods.getText().toString());
-        Map<String, String> goods = tool.readData(context, id);
+        Map goods =new Gson().fromJson(tool.readData(context,id),Map.class);
         imageView_index_goods.setImageBitmap(tool.readImage(context,id));
-        textView_name_goods.setText(goods.get("name"));
+        textView_name_goods.setText(goods.get("name").toString());
         textView_price_goods.setText("價格 : " + goods.get("price"));
         textView_quantity_goods.setText("剩餘數量 : " + goods.get("quantity"));
         textView_content_goods.setText("商品敘述 : " + goods.get("content"));
@@ -61,7 +64,6 @@ public class goodsActivity extends AppCompatActivity {
                 finish();
             }});
 
-//        Log.d("Tag",goods.toString());
     }
 
 }
