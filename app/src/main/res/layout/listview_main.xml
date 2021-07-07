@@ -10,9 +10,12 @@
         android:id="@+id/textView_name_listView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="32dp"
-        android:text="TextView"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="25dp"
+        android:text="name"
+        android:textColor="#E91E63"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/imageView_icon_listView"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -20,40 +23,73 @@
         android:id="@+id/textView_price_listView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="13dp"
-        android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/imageView_icon_listView"
-        app:layout_constraintTop_toBottomOf="@+id/textView_name_listView" />
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
+        android:text="price"
+        android:textColor="#00BCD4"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/textView_money"
+        app:layout_constraintTop_toBottomOf="@+id/textView_content_listView" />
 
     <TextView
         android:id="@+id/textView_quantity__listView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="35dp"
-        android:layout_marginTop="40dp"
-        android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/textView_name_listView"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
+        android:text="quantity"
+        android:textColor="#000"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/textView_content_listView" />
 
     <TextView
         android:id="@+id/textView_content_listView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="35dp"
-        android:layout_marginTop="10dp"
-        android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/textView_price_listView"
-        app:layout_constraintTop_toBottomOf="@+id/textView_quantity__listView" />
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:text="content"
+        android:textColor="#4CAF50"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/imageView_icon_listView"
+        app:layout_constraintTop_toBottomOf="@+id/textView_name_listView" />
 
     <ImageView
         android:id="@+id/imageView_icon_listView"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_marginStart="15dp"
+        android:layout_width="119dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="25dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_launcher_background"
         tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/textView_money"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:text="$"
+        android:textColor="#00BCD4"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/imageView_icon_listView"
+        app:layout_constraintTop_toBottomOf="@+id/textView_content_listView" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        android:text="庫存"
+        android:textColor="#000000"
+        android:textColorHint="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/textView_price_listView"
+        app:layout_constraintTop_toBottomOf="@+id/textView_content_listView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

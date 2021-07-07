@@ -9,9 +9,9 @@
         android:id="@+id/image_recyler"
         android:layout_width="110dp"
         android:layout_height="110dp"
-        android:layout_marginStart="11dp"
-        android:layout_marginTop="5dp"
-        app:layout_constraintStart_toEndOf="@+id/btn_cancel_recyler"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_launcher_background"
         tools:srcCompat="@drawable/ic_launcher_background" />
@@ -21,8 +21,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="28dp"
-        android:text="TextView"
+        android:layout_marginTop="25dp"
+        android:text="Name"
+        android:textColor="#E91E63"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/image_recyler"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,46 +33,72 @@
         android:id="@+id/textView_price_recycler"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="38dp"
-        android:layout_marginTop="27dp"
-        android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/image_recyler"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="30dp"
+        android:text="price"
+        android:textColor="#00BCD4"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/textView_name_recycler" />
 
     <TextView
         android:id="@+id/textView_num_recycler"
-        android:layout_width="wrap_content"
+        android:layout_width="30dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="124dp"
-        android:layout_marginTop="4dp"
-        android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/image_recyler"
-        app:layout_constraintTop_toBottomOf="@+id/btn_plus_recyler" />
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="90dp"
+        android:gravity="center"
+        android:text="n"
+        app:layout_constraintStart_toEndOf="@+id/btn_minus_recyler"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btn_cancel_recyler"
-        android:layout_width="50dp"
+        android:layout_width="45dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginStart="156dp"
+        android:layout_marginTop="16dp"
         android:text="X"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/textView_name_recycler"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btn_plus_recyler"
-        android:layout_width="50dp"
+        android:layout_width="45dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="75dp"
         android:text="+"
-        app:layout_constraintStart_toEndOf="@+id/textView_name_recycler"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:backgroundTint="#C34A4A"
+        app:layout_constraintStart_toEndOf="@+id/textView_num_recycler"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btn_minus_recyler"
-        android:layout_width="50dp"
+        android:layout_width="45dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
+        android:layout_marginStart="55dp"
+        android:layout_marginTop="75dp"
         android:text="-"
-        app:layout_constraintStart_toEndOf="@+id/textView_price_recycler"
-        app:layout_constraintTop_toBottomOf="@+id/textView_num_recycler" />
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:backgroundTint="#4CAF50"
+        app:layout_constraintStart_toEndOf="@+id/textView2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="10dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="30dp"
+        android:text="$"
+        android:textColor="#00BCD4"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/image_recyler"
+        app:layout_constraintTop_toBottomOf="@+id/textView_name_recycler" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -22,9 +22,9 @@
     style="?android:attr/spinnerItemStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#A5F4E8"
+    android:background="#E499B3"
     android:ellipsize="marquee"
     android:singleLine="true"
     android:textAlignment="inherit"
-    android:textColor="#FF6F00"
-    android:textSize="22dp" />
+    android:textColor="#3F51B5"
+    android:textSize="20dp" />

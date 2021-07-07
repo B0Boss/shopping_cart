@@ -22,4 +22,7 @@
           android:singleLine="true"
           android:layout_width="match_parent"
           android:layout_height="?attr/dropdownListPreferredItemHeight"
-          android:ellipsize="marquee"/>
+          android:ellipsize="marquee"
+          android:background="#E499B3"
+          android:textColor="#3F51B5"
+          android:textSize="20dp"/>
