@@ -141,7 +141,13 @@ public class MainActivity extends AppCompatActivity {
     private void getFirebase(){
         ProgressDialog dialog = ProgressDialog.show(context,"讀取中","請稍候",true);
         DatabaseReference goodsData = FirebaseDatabase.getInstance().getReference("goods");
-        ValueEventListener readData = new ValueEventListener() {
+        //first time
+        if (new File(context.getFilesDir(), "label").exists()) {
+            Log.d("Tag", "second connection");
+            dialog.dismiss();
+            initializeUI();
+        }
+        goodsData.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Log.d("Tag", "data loading");
@@ -153,6 +159,8 @@ public class MainActivity extends AppCompatActivity {
                                 getFile(new File(context.getDir(ds.getKey(), 0), "index.jpg")).
                                 addOnFailureListener(e -> Log.d("Tag", ds.getKey() + " image download failed")).
                                 addOnCompleteListener(task -> {
+                                    int count =0;
+                                    Log.d("Tag", snapshot.getKey()+" : "+ds.getKey());
                                     if (task.getResult().getStorage().getParent().getName().equals("g0014")){
                                         initializeUI(); dialog.dismiss();
                                     }
@@ -162,20 +170,11 @@ public class MainActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.d("Tag", error.toString());
             }
-        };//first time
-        if (!new File(context.getFilesDir(), "label").exists()) {
-            Log.d("Tag", "first connection");
-            goodsData.addListenerForSingleValueEvent(readData);
-        }else {
-            Log.d("Tag", "second connection");
-            initializeUI();
-            dialog.onStart();
-            goodsData.addValueEventListener(readData);
-        }
+        });
+
     }
 
 }
-
 
 class tool {
     public static Gson gson = new Gson();
@@ -212,6 +211,3 @@ class tool {
     }
 
 }
-//class item implements Serializable {
-//    public ArrayList<String> selectedGoods;
-//}
