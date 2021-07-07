@@ -2,18 +2,13 @@ package com.example.shopping_cart;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -27,20 +22,13 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
@@ -48,11 +36,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -151,20 +137,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Log.d("Tag", "data loading");
+                AtomicInteger count = new AtomicInteger(1);
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     tool.writeData(context, ds.getKey(), ds.getValue().toString());
                     //image↓
-                    if (!ds.getKey().equals("label"))
+                    if (!ds.getKey().equals("label")) {
                         FirebaseStorage.getInstance().getReference().child("goods").child(ds.getKey()).child("index.jpg").
                                 getFile(new File(context.getDir(ds.getKey(), 0), "index.jpg")).
                                 addOnFailureListener(e -> Log.d("Tag", ds.getKey() + " image download failed")).
                                 addOnCompleteListener(task -> {
-                                    int count =0;
-                                    Log.d("Tag", snapshot.getKey()+" : "+ds.getKey());
-                                    if (task.getResult().getStorage().getParent().getName().equals("g0014")){
-                                        initializeUI(); dialog.dismiss();
+                                    if (count.addAndGet(1) == snapshot.getChildrenCount()) {
+                                        initializeUI();
+                                        dialog.dismiss();
                                     }
                                 });
+                    }
                 }
             }@Override
             public void onCancelled(@NonNull DatabaseError error) {
