@@ -30,39 +30,33 @@ public class goodsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goods);
 
-        TextView textView_name_goods = (TextView) findViewById(R.id.textView_name_goods);
-        TextView textView_price_goods = (TextView) findViewById(R.id.textView_price_goods);
-        TextView textView_content_goods = (TextView) findViewById(R.id.textView_content_goods);
-        TextView textView_quantity_goods = (TextView) findViewById(R.id.textView_quantity_goods);
-        EditText editText_num__goods = (EditText) findViewById(R.id.editText_num__goods);
-        ImageView imageView_index_goods = (ImageView) findViewById(R.id.imageView_index_goods);
+        TextView textView_name_goods = findViewById(R.id.textView_name_goods);
+        TextView textView_price_goods = findViewById(R.id.textView_price_goods);
+        TextView textView_content_goods = findViewById(R.id.textView_content_goods);
+        TextView textView_quantity_goods = findViewById(R.id.textView_quantity_goods);
+        EditText editText_num__goods = findViewById(R.id.editText_num__goods);
+        ImageView imageView_index_goods = findViewById(R.id.imageView_index_goods);
 
         String id = getIntent().getStringExtra("id");
         num = Integer.parseInt(editText_num__goods.getText().toString());
-        Map goods =new Gson().fromJson(tool.readData(context,id),Map.class);
+        Map goods =tool.gson.fromJson(tool.readData(context,id),Map.class);
         imageView_index_goods.setImageBitmap(tool.readImage(context,id));
         textView_name_goods.setText(goods.get("name").toString());
         textView_price_goods.setText("價格 : " + goods.get("price"));
         textView_quantity_goods.setText("剩餘數量 : " + goods.get("quantity"));
         textView_content_goods.setText("商品敘述 : " + goods.get("content"));
 
-        findViewById(R.id.btn_plus__goods).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editText_num__goods.setText(String.valueOf(++num));
-            }});
-        findViewById(R.id.btn_minus_goods).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (num != 0)
-                    editText_num__goods.setText(String.valueOf(--num));
-            }});
-        findViewById(R.id.btn_ok_goods).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        findViewById(R.id.btn_plus__goods).setOnClickListener(v ->
+                editText_num__goods.setText(String.valueOf(++num)));
+        findViewById(R.id.btn_minus_goods).setOnClickListener(v -> {
+            if (num != 0)
+                editText_num__goods.setText(String.valueOf(--num));
+        });
+        findViewById(R.id.btn_ok_goods).setOnClickListener(v -> {
+            if (num != 0)
                 setResult(1,getIntent().putExtra("id",id).putExtra("num",num));
-                finish();
-            }});
+            finish();
+        });
 
     }
 

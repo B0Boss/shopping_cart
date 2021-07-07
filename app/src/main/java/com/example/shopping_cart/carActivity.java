@@ -39,9 +39,9 @@ public class carActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car);
 
-        textView_total_cart =(TextView)findViewById(R.id.textView_total_cart);
+        textView_total_cart = findViewById(R.id.textView_total_cart);
         recyclerAdapter =new MyListAdapter();
-        recycleview = (RecyclerView)findViewById(R.id.recycleview);
+        recycleview = findViewById(R.id.recycleview);
         recycleview.setLayoutManager(new LinearLayoutManager(context));
         recycleview.addItemDecoration(new DividerItemDecoration(context,DividerItemDecoration.VERTICAL));
         recycleview.setAdapter(recyclerAdapter);
@@ -49,7 +49,7 @@ public class carActivity extends AppCompatActivity {
             String[] pairs = str.split(":");
             String id =pairs[0];
             num =pairs[1];
-            Map map =new Gson().fromJson(tool.readData(context,id),Map.class);
+            Map map =tool.gson.fromJson(tool.readData(context,id),Map.class);
             map.put("id",id);map.put("num",num);map.remove("quantity");map.remove("content");
             map.put("price",String.valueOf((int)(double)(map.get("price"))));
             item.add(map);
@@ -65,13 +65,13 @@ public class carActivity extends AppCompatActivity {
 
             public ViewHolder(@NonNull View itemView) {
                 super(itemView);
-                image_recycler =(ImageView)itemView.findViewById(R.id.image_recyler);
-                textView_name_recycler =(TextView)itemView.findViewById(R.id.textView_name_recycler);
-                textView_num_recycler =(TextView)itemView.findViewById(R.id.textView_num_recycler);
-                textView_price_recycler =(TextView)itemView.findViewById(R.id.textView_price_recycler);
-                btn_plus_recycler =(Button)itemView.findViewById(R.id.btn_plus_recyler);
-                btn_minus_recycler =(Button)itemView.findViewById(R.id.btn_minus_recyler);
-                btn_cancel_recycler =(Button)itemView.findViewById(R.id.btn_cancel_recyler);
+                image_recycler = itemView.findViewById(R.id.image_recyler);
+                textView_name_recycler = itemView.findViewById(R.id.textView_name_recycler);
+                textView_num_recycler = itemView.findViewById(R.id.textView_num_recycler);
+                textView_price_recycler = itemView.findViewById(R.id.textView_price_recycler);
+                btn_plus_recycler = itemView.findViewById(R.id.btn_plus_recyler);
+                btn_minus_recycler = itemView.findViewById(R.id.btn_minus_recyler);
+                btn_cancel_recycler = itemView.findViewById(R.id.btn_cancel_recyler);
             }
         }
         @NonNull
@@ -96,41 +96,32 @@ public class carActivity extends AppCompatActivity {
                         totalPrice += Integer.parseInt(data.get("totalPrice").toString());
                     textView_total_cart.setText("總共 : " + totalPrice);
                 }
-                holder.btn_plus_recycler.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String[] pairs = selectedGoods.get(position).split(":");
-                        num =String.valueOf(Integer.parseInt(pairs[1])+1);
+                holder.btn_plus_recycler.setOnClickListener(v -> {
+                    String[] pairs = selectedGoods.get(position).split(":");
+                    num =String.valueOf(Integer.parseInt(pairs[1])+1);
+                    selectedGoods.set(position,pairs[0]+":"+num);
+                    item.get(position).put("num",num);
+                    recyclerAdapter.notifyItemChanged(position);
+                });
+                holder.btn_minus_recycler.setOnClickListener(v -> {
+                    String[] pairs = selectedGoods.get(position).split(":");
+                    int tmp =Integer.parseInt(pairs[1]);
+                    if (tmp>0){
+                        num =String.valueOf(tmp-1);
                         selectedGoods.set(position,pairs[0]+":"+num);
                         item.get(position).put("num",num);
                         recyclerAdapter.notifyItemChanged(position);
                     }
-                });
-                holder.btn_minus_recycler.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String[] pairs = selectedGoods.get(position).split(":");
-                        int tmp =Integer.parseInt(pairs[1]);
-                        if (tmp>0){
-                            num =String.valueOf(tmp-1);
-                            selectedGoods.set(position,pairs[0]+":"+num);
-                            item.get(position).put("num",num);
-                            recyclerAdapter.notifyItemChanged(position);
-                        }
 
-                    }
                 });
-                holder.btn_cancel_recycler.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        selectedGoods.remove(position);
-                        item.remove(position);
-                        recyclerAdapter.notifyItemChanged(position);
-                        int totalPrice = 0;
-                        for (Map data : item)
-                            totalPrice += Integer.parseInt(data.get("totalPrice").toString());
-                        textView_total_cart.setText("總共 : " + totalPrice);
-                    }
+                holder.btn_cancel_recycler.setOnClickListener(v -> {
+                    selectedGoods.remove(position);
+                    item.remove(position);
+                    recyclerAdapter.notifyItemChanged(position);
+                    int totalPrice = 0;
+                    for (Map data : item)
+                        totalPrice += Integer.parseInt(data.get("totalPrice").toString());
+                    textView_total_cart.setText("總共 : " + totalPrice);
                 });
             }else textView_total_cart.setText("");
         }
