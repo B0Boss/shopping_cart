@@ -64,7 +64,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:text="Content"
-            android:textColor="#8BC34A"
+            android:textColor="#000"
             android:textSize="18sp"
             android:textStyle="bold" />
 
