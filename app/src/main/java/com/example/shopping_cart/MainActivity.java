@@ -3,6 +3,7 @@ package com.example.shopping_cart;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -17,11 +18,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -52,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     private Spinner spinner_main;
     private ListView listView_main;
     private SimpleAdapter adapter;
+    private TextView textView_name_nav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +64,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         spinner_main =findViewById(R.id.spinner_main);
         listView_main =findViewById(R.id.listView_main);
+        textView_name_nav =findViewById(R.id.textView_name_nav);
 
         getFirebase();
+
+        findViewById(R.id.btn_login_nav).setOnClickListener(v ->
+                startActivity(new Intent(context,Activity_login.class)));
+        findViewById(R.id.btn_profile_nav).setOnClickListener(v ->
+                startActivity(new Intent(context,Activity_profile.class)));
+
     }
     private void initializeUI(){
         goodsLabel =tool.gson.fromJson(tool.readData(context,"label"),
