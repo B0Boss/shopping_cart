@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,8 +25,10 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -57,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
     private ListView listView_main;
     private SimpleAdapter adapter;
     private TextView textView_name_nav;
+    FirebaseAuth firebaseAuth;
+    private Button btn_login_nav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,10 +73,33 @@ public class MainActivity extends AppCompatActivity {
 
         getFirebase();
 
-        findViewById(R.id.btn_login_nav).setOnClickListener(v ->
-                startActivity(new Intent(context,Activity_login.class)));
-        findViewById(R.id.btn_profile_nav).setOnClickListener(v ->
-                startActivity(new Intent(context,Activity_profile.class)));
+        firebaseAuth = FirebaseAuth.getInstance();
+        if (firebaseAuth.getCurrentUser()!=null)
+            Log.d("Tag", "name : "+firebaseAuth.getCurrentUser().getDisplayName()+
+                    "\nemail : "+firebaseAuth.getCurrentUser().getEmail()+
+                    "\nemail verified : "+firebaseAuth.getCurrentUser().isEmailVerified()+
+                    "\nphotoUri : "+firebaseAuth.getCurrentUser().getPhotoUrl()+
+                    "\nid : "+firebaseAuth.getCurrentUser().getUid()+
+                    "\nphone : "+firebaseAuth.getCurrentUser().getPhoneNumber());
+        btn_login_nav =findViewById(R.id.btn_login_nav);
+        btn_login_nav.setOnClickListener(v -> {
+            if (firebaseAuth.getCurrentUser() == null){
+                startActivity(new Intent(context, Activity_login.class));
+            }else {
+                firebaseAuth.signOut();
+                finish();
+                startActivity(getIntent());
+                Toast.makeText(context,"登出成功",Toast.LENGTH_LONG).show();
+            }
+        });
+        findViewById(R.id.btn_profile_nav).setOnClickListener(v ->{
+            if (firebaseAuth.getCurrentUser() == null){
+                Toast.makeText(context,"請先登入",Toast.LENGTH_LONG).show();
+                startActivity(new Intent(context, Activity_login.class));
+            }else {
+                startActivity(new Intent(context, Activity_profile.class));
+            }
+        });
 
     }
     private void initializeUI(){
@@ -111,6 +139,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        if (firebaseAuth.getCurrentUser() == null){
+            textView_name_nav.setText("訪客");
+            btn_login_nav.setText("登入 / 註冊");
+        }
+        else {
+            textView_name_nav.setText(firebaseAuth.getCurrentUser().getDisplayName());
+            btn_login_nav.setText("登出");
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         MenuInflater inflater =getMenuInflater();
@@ -120,10 +161,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.cart:
-//                item goods = new item();
-//                goods.selectedGoods =selectedGoods;
-//                Bundle bundle =new Bundle();
-//                bundle.putSerializable("selectedGoods",goods);
                 startActivity(new Intent(context,carActivity.class));
         }return super.onOptionsItemSelected(item);
     }
