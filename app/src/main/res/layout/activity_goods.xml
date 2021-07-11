@@ -122,14 +122,13 @@
 
         <Button
             android:id="@+id/btn_ok_goods"
-            android:layout_width="wrap_content"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="125dp"
+            android:layout_marginStart="60dp"
             android:layout_marginTop="8dp"
             android:text="加入購物車"
-            android:textColor="#FFEB3B"
-            android:textSize="24sp"
-            app:backgroundTint="#7533EA" />
+            android:textColor="#FFFFFF"
+            android:textSize="24sp" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

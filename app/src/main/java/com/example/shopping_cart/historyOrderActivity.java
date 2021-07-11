@@ -29,6 +29,7 @@ public class historyOrderActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_order);
+        setTitle("歷史訂單");
 
         ListView listView_historyOrder = findViewById(R.id.listView_historyOrder);
         ArrayList<Map<String, Object>> dataList = new ArrayList<>();

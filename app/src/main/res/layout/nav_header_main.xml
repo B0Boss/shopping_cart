@@ -37,13 +37,16 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="8dp"
                 android:text="guest"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
             <Button
                 android:id="@+id/btn_login_nav"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="login" />
+                android:text="login"
+                app:backgroundTint="#3F51B5" />
 
         </LinearLayout>
 
@@ -53,11 +56,13 @@
         android:id="@+id/btn_profile_nav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="profile" />
+        android:text="profile"
+        app:backgroundTint="#03A9F4" />
 
     <Button
         android:id="@+id/btn_historyOrder_nav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="history order" />
+        android:text="history order"
+        app:backgroundTint="#03A9F4" />
 </LinearLayout>

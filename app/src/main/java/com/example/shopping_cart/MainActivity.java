@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("廢寢玩食手做甜點");
         setContentView(R.layout.activity_main);
         spinner_main =findViewById(R.id.spinner_main);
         listView_main =findViewById(R.id.listView_main);

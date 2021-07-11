@@ -29,6 +29,7 @@ public class goodsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goods);
+        setTitle("廢寢玩食手做甜點");
 
         TextView textView_name_goods = findViewById(R.id.textView_name_goods);
         TextView textView_price_goods = findViewById(R.id.textView_price_goods);

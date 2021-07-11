@@ -42,7 +42,7 @@ public class carActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car);
-
+        setTitle("您的購物車");
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         DatabaseReference order = FirebaseDatabase.getInstance().getReference("order");
         textView_total_cart = findViewById(R.id.textView_total_cart);

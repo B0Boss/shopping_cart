@@ -23,6 +23,7 @@ public class Activity_login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("使用者登入/申請");
         setContentView(R.layout.activity_login);
         EditText editText_account_login = findViewById(R.id.editText_account_login);
         EditText editText_password_login = findViewById(R.id.editText_password_login);

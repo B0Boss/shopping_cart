@@ -31,7 +31,7 @@ public class Activity_profile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-
+        setTitle("身分認證");
         DatabaseReference accountData = FirebaseDatabase.getInstance().getReference("account");
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         TextView textView_email_profile = findViewById(R.id.textView_email_profile);
