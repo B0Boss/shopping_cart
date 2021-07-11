@@ -71,18 +71,20 @@ public class MainActivity extends AppCompatActivity {
         spinner_main =findViewById(R.id.spinner_main);
         listView_main =findViewById(R.id.listView_main);
         textView_name_nav =findViewById(R.id.textView_name_nav);
-         btn_historyOrder_nav = findViewById(R.id.btn_historyOrder_nav);
+        btn_historyOrder_nav = findViewById(R.id.btn_historyOrder_nav);
+        ImageView image_man_nav =findViewById(R.id.image_man_nav);
         getFirebase();
 
         firebaseAuth = FirebaseAuth.getInstance();
         if (firebaseAuth.getCurrentUser()!=null)
-            Log.d("Tag", "name : "+firebaseAuth.getCurrentUser().getDisplayName()+
-                    "\nemail : "+firebaseAuth.getCurrentUser().getEmail()+
-                    "\nemail verified : "+firebaseAuth.getCurrentUser().isEmailVerified()+
-                    "\nphotoUri : "+firebaseAuth.getCurrentUser().getPhotoUrl()+
-                    "\nid : "+firebaseAuth.getCurrentUser().getUid()+
-                    "\nphone : "+firebaseAuth.getCurrentUser().getPhoneNumber());
-
+//            Log.d("Tag", "name : "+firebaseAuth.getCurrentUser().getDisplayName()+
+//                    "\nemail : "+firebaseAuth.getCurrentUser().getEmail()+
+//                    "\nemail verified : "+firebaseAuth.getCurrentUser().isEmailVerified()+
+//                    "\nphotoUri : "+firebaseAuth.getCurrentUser().getPhotoUrl()+
+//                    "\nid : "+firebaseAuth.getCurrentUser().getUid()+
+//                    "\nphone : "+firebaseAuth.getCurrentUser().getPhoneNumber());
+        if (firebaseAuth.getCurrentUser().getDisplayName().equals("farmer"))
+            image_man_nav.setImageResource(R.drawable.man);
         btn_login_nav =findViewById(R.id.btn_login_nav);
         btn_login_nav.setOnClickListener(v -> {
             if (firebaseAuth.getCurrentUser() == null){

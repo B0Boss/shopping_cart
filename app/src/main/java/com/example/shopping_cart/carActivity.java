@@ -61,7 +61,7 @@ public class carActivity extends AppCompatActivity {
             String id =pairs[0];
             num =pairs[1];
             Map map =tool.gson.fromJson(tool.readData(context,id),Map.class);
-            map.put("id",id);map.put("num",num);map.remove("quantity");map.remove("content");
+            map.put("id",id);map.put("num",num);map.remove("content");
             map.put("price",String.valueOf((int)(double)(map.get("price"))));
             item.add(map);
         }
@@ -85,7 +85,6 @@ public class carActivity extends AppCompatActivity {
                         startActivity(new Intent(context, Activity_profile.class));
             } else {
                 for (Map data : item) {
-                    data.remove("id");
                     data.remove("price");
                 }
                 item.get(0).put("userID", firebaseAuth.getCurrentUser().getUid());

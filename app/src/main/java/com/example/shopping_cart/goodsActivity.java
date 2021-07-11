@@ -23,7 +23,6 @@ import java.util.Map;
 
 public class goodsActivity extends AppCompatActivity {
     private final Context context = this;
-    private int num;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,23 +38,25 @@ public class goodsActivity extends AppCompatActivity {
         ImageView imageView_index_goods = findViewById(R.id.imageView_index_goods);
 
         String id = getIntent().getStringExtra("id");
-        num = Integer.parseInt(editText_num__goods.getText().toString());
         Map goods =tool.gson.fromJson(tool.readData(context,id),Map.class);
         imageView_index_goods.setImageBitmap(tool.readImage(context,id));
         textView_name_goods.setText(goods.get("name").toString());
-        textView_price_goods.setText("價格 : " + goods.get("price"));
-        textView_quantity_goods.setText("剩餘數量 : " + goods.get("quantity"));
+        textView_price_goods.setText("價格 : " + (int)(double)goods.get("price"));
+        textView_quantity_goods.setText("剩餘數量 : " + (int)(double)goods.get("quantity"));
         textView_content_goods.setText("商品敘述 : " + goods.get("content"));
 
-        findViewById(R.id.btn_plus__goods).setOnClickListener(v ->
-                editText_num__goods.setText(String.valueOf(++num)));
+        findViewById(R.id.btn_plus__goods).setOnClickListener(v ->{
+            if (Integer.parseInt(editText_num__goods.getText().toString()) < (int)(double)goods.get("quantity"))
+                editText_num__goods.setText(String.valueOf(Integer.parseInt(editText_num__goods.getText().toString())+1));
+        });
         findViewById(R.id.btn_minus_goods).setOnClickListener(v -> {
-            if (num != 0)
-                editText_num__goods.setText(String.valueOf(--num));
+            if (Integer.parseInt(editText_num__goods.getText().toString()) != 0)
+                editText_num__goods.setText(String.valueOf(Integer.parseInt(editText_num__goods.getText().toString())-1));
         });
         findViewById(R.id.btn_ok_goods).setOnClickListener(v -> {
-            if (num != 0)
-                setResult(1,getIntent().putExtra("id",id).putExtra("num",num));
+            if (Integer.parseInt(editText_num__goods.getText().toString()) != 0)
+                setResult(1,getIntent().putExtra("id",id)
+                        .putExtra("num",Integer.parseInt(editText_num__goods.getText().toString())));
             finish();
         });
 
