@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,7 +17,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -29,22 +34,24 @@ public class carActivity extends AppCompatActivity {
 
     Context context =this;
     ArrayList<Map<String,String>> item= new ArrayList<>();
-    private RecyclerView recycleview;
+    private RecyclerView recyclerView;
     private MyListAdapter recyclerAdapter;
     private String num;
     private TextView textView_total_cart;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car);
 
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        DatabaseReference order = FirebaseDatabase.getInstance().getReference("order");
         textView_total_cart = findViewById(R.id.textView_total_cart);
+        textView_total_cart.setText("");
         recyclerAdapter =new MyListAdapter();
-        recycleview = findViewById(R.id.recycleview);
-        recycleview.setLayoutManager(new LinearLayoutManager(context));
-        recycleview.addItemDecoration(new DividerItemDecoration(context,DividerItemDecoration.VERTICAL));
-        recycleview.setAdapter(recyclerAdapter);
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        recyclerView.addItemDecoration(new DividerItemDecoration(context,DividerItemDecoration.VERTICAL));
+        recyclerView.setAdapter(recyclerAdapter);
         for (String str:selectedGoods) {
             String[] pairs = str.split(":");
             String id =pairs[0];
@@ -54,6 +61,31 @@ public class carActivity extends AppCompatActivity {
             map.put("price",String.valueOf((int)(double)(map.get("price"))));
             item.add(map);
         }
+        if (item.size() == 0)
+            findViewById(R.id.btn_checkOut_car).setVisibility(View.INVISIBLE);
+        else
+            findViewById(R.id.btn_checkOut_car).setVisibility(View.VISIBLE);
+        findViewById(R.id.btn_checkOut_car).setOnClickListener(v -> {
+            if (firebaseAuth.getCurrentUser() == null) {
+                startActivity(new Intent(context, Activity_login.class).putExtra("car", 1));
+                Toast.makeText(context,"請先登入",Toast.LENGTH_LONG);
+                return;
+            }if ( ! firebaseAuth.getCurrentUser().isEmailVerified()) {
+                Toast.makeText(context,"請先驗證 E m a i l",Toast.LENGTH_LONG).show();
+                startActivity(new Intent(context,Activity_profile.class));
+            }else {
+                for (Map data:item) {
+                    data.remove("id");
+                    data.remove("price");
+                }item.get(0).put("userID",firebaseAuth.getCurrentUser().getUid());
+                item.get(0).put("orderStatus","1");
+                order.push().setValue(item);
+                finish();
+                selectedGoods.clear();
+                startActivity(new Intent(context,historyOrderActivity.class));
+                Toast.makeText(context,"下單成功",Toast.LENGTH_LONG).show();
+            }
+        });
 
     }
 
@@ -87,8 +119,8 @@ public class carActivity extends AppCompatActivity {
                 holder.image_recycler.setImageBitmap(tool.readImage(context,item.get(position).get("id")));
                 holder.textView_name_recycler.setText(item.get(position).get("name"));
                 holder.textView_num_recycler.setText(item.get(position).get("num"));
-                Log.d("Tag",item.get(position).get("price"));
-                item.get(position).put("totalPrice",""+Integer.parseInt(item.get(position).get("price"))*Integer.parseInt(item.get(position).get("num")));
+                item.get(position).put("totalPrice",""+
+                        Integer.parseInt(item.get(position).get("price"))*Integer.parseInt(item.get(position).get("num")));
                 holder.textView_price_recycler.setText(item.get(position).get("totalPrice"));
                 if (item.get(item.size()-1).get("totalPrice") != null){
                     int totalPrice = 0;
@@ -106,7 +138,7 @@ public class carActivity extends AppCompatActivity {
                 holder.btn_minus_recycler.setOnClickListener(v -> {
                     String[] pairs = selectedGoods.get(position).split(":");
                     int tmp =Integer.parseInt(pairs[1]);
-                    if (tmp>0){
+                    if (tmp>1){
                         num =String.valueOf(tmp-1);
                         selectedGoods.set(position,pairs[0]+":"+num);
                         item.get(position).put("num",num);
@@ -117,13 +149,17 @@ public class carActivity extends AppCompatActivity {
                 holder.btn_cancel_recycler.setOnClickListener(v -> {
                     selectedGoods.remove(position);
                     item.remove(position);
-                    recyclerAdapter.notifyItemChanged(position);
+                    if (item.size() == 0)
+                        findViewById(R.id.btn_checkOut_car).setVisibility(View.INVISIBLE);
+                    recyclerAdapter.notifyItemRangeRemoved(0, item.size()+1);
                     int totalPrice = 0;
                     for (Map data : item)
                         totalPrice += Integer.parseInt(data.get("totalPrice").toString());
                     textView_total_cart.setText("總共 : " + totalPrice);
+                    if (item.size() == 0){}
+                        textView_total_cart.setText("");
                 });
-            }else textView_total_cart.setText("");
+            }
         }
         @Override
         public int getItemCount() {

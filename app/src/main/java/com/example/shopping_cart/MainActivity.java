@@ -60,8 +60,8 @@ public class MainActivity extends AppCompatActivity {
     private ListView listView_main;
     private SimpleAdapter adapter;
     private TextView textView_name_nav;
-    FirebaseAuth firebaseAuth;
-    private Button btn_login_nav;
+    private FirebaseAuth firebaseAuth;
+    private Button btn_login_nav,btn_historyOrder_nav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         spinner_main =findViewById(R.id.spinner_main);
         listView_main =findViewById(R.id.listView_main);
         textView_name_nav =findViewById(R.id.textView_name_nav);
-
+         btn_historyOrder_nav = findViewById(R.id.btn_historyOrder_nav);
         getFirebase();
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
                     "\nphotoUri : "+firebaseAuth.getCurrentUser().getPhotoUrl()+
                     "\nid : "+firebaseAuth.getCurrentUser().getUid()+
                     "\nphone : "+firebaseAuth.getCurrentUser().getPhoneNumber());
+
         btn_login_nav =findViewById(R.id.btn_login_nav);
         btn_login_nav.setOnClickListener(v -> {
             if (firebaseAuth.getCurrentUser() == null){
@@ -99,6 +100,13 @@ public class MainActivity extends AppCompatActivity {
             }else {
                 startActivity(new Intent(context, Activity_profile.class));
             }
+        });
+        btn_historyOrder_nav.setOnClickListener(v ->{
+            if (firebaseAuth.getCurrentUser() == null){
+                Toast.makeText(context,"請先登入",Toast.LENGTH_LONG).show();
+                startActivity(new Intent(context, Activity_login.class));
+            }else
+                startActivity(new Intent(context,historyOrderActivity.class));
         });
 
     }

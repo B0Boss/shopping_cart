@@ -33,7 +33,7 @@ public class Activity_login extends AppCompatActivity {
                         editText_password_login.getText().toString()).addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()){
                         Toast.makeText(context,"登入成功",Toast.LENGTH_LONG).show();
-                        startActivity(new Intent(context,MainActivity.class));
+                        finish();
                     }else {
                         Log.d("Tag", "登入失敗 : " + task.getException());
                         Toast.makeText(context,"認證失敗",Toast.LENGTH_LONG).show();

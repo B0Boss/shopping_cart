@@ -1,5 +1,6 @@
 package com.example.shopping_cart;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -10,6 +11,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class Activity_signup extends AppCompatActivity {
@@ -30,11 +33,15 @@ public class Activity_signup extends AppCompatActivity {
                 firebaseAuth.createUserWithEmailAndPassword(editText_account_signUp.getText().toString(),
                         editText_password_signUp.getText().toString()).addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()){
+                        firebaseAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(task1 -> {
+                            if (!task1.isSuccessful())
+                                Log.d("Tag", "failed to send an EmailVerification");
+                        });
                         Toast.makeText(context,"註冊成功",Toast.LENGTH_LONG).show();
                         startActivity(new Intent(context,MainActivity.class));
                     }else {
                         Log.d("Tag", "註冊失敗 : " + task.getException());
-                        Toast.makeText(context,"註冊失敗",Toast.LENGTH_LONG).show();
+                        Toast.makeText(context,"註冊失敗 : "+task.getException(),Toast.LENGTH_LONG).show();
                     }
                 });
         });

@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Shopping_cart">
-        <activity android:name=".Activity_profile"></activity>
+        <activity android:name=".historyOrderActivity"></activity>
+        <activity android:name=".Activity_profile" />
         <activity android:name=".Activity_signup" />
         <activity android:name=".Activity_login" />
         <activity android:name=".carActivity" />
