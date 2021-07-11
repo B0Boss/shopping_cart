@@ -59,23 +59,19 @@ public class Activity_profile extends AppCompatActivity {
             );
         }
         editText_name_profile.setText(firebaseAuth.getCurrentUser().getDisplayName());
-        accountData.child(id).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.child("phone").getValue() != null)
-                    editText_phone_profile.setText(snapshot.child("phone").getValue().toString());
-                if (snapshot.child("address").getValue() != null)
-                    editText_address_profile.setText(snapshot.child("address").getValue().toString());
-            }@Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("Tag", id+" data error");
-            }
-        });
+        accountData.child(id).get().addOnCompleteListener(task -> {
+            Log.d("Tag", ""+task.getResult());
+                if (task.getResult().child("phone").getValue() != null)
+                    editText_phone_profile.setText(task.getResult().child("phone").getValue().toString());
+                if (task.getResult().child("address").getValue() != null)
+                    editText_address_profile.setText(task.getResult().child("address").getValue().toString());
+            });
 
         findViewById(R.id.btn_updateData_profile).setOnClickListener(v ->
             firebaseAuth.getCurrentUser().updateProfile(new UserProfileChangeRequest.Builder().
             setDisplayName(editText_name_profile.getText().toString()).build()).addOnCompleteListener(task ->{
                 if (task.isSuccessful()) {
+                    Log.d("Tag", "????????????????");
                     HashMap<String, String> data = new HashMap<>();
                     data.put("Email",firebaseAuth.getCurrentUser().getEmail());
                     data.put("Email_is_checked",firebaseAuth.getCurrentUser().isEmailVerified()+"");
@@ -84,6 +80,7 @@ public class Activity_profile extends AppCompatActivity {
                     if (editText_address_profile.getText().length() != 0)
                         data.put("address",editText_address_profile.getText().toString());
                     accountData.child(id).setValue(data);
+                    finish();
                     Toast.makeText(context, "修改成功", Toast.LENGTH_LONG).show();
                 }
             })

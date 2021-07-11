@@ -39,6 +39,7 @@ public class Activity_signup extends AppCompatActivity {
                                 Log.d("Tag", "failed to send an EmailVerification");
                         });
                         Toast.makeText(context,"註冊成功",Toast.LENGTH_LONG).show();
+                        finish();
                         startActivity(new Intent(context,MainActivity.class));
                     }else {
                         Log.d("Tag", "註冊失敗 : " + task.getException());

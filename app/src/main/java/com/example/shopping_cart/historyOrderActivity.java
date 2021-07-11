@@ -47,7 +47,7 @@ public class historyOrderActivity extends AppCompatActivity {
                         for (DataSnapshot ds:snapshot.getChildren()) {
                             if (snapshot1.child(firebaseAuth.getCurrentUser().getUid()).child("admin").getValue() == null)
                                 if (!ds.child("0").child("userID").getValue().equals(firebaseAuth.getCurrentUser().getUid()))
-                                    return;
+                                    continue;
                             key.add(ds.getKey());
                             Map<String,Object>data = new HashMap<>();
                             StringBuilder name = new StringBuilder();

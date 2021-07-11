@@ -20,8 +20,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -45,6 +48,7 @@ public class carActivity extends AppCompatActivity {
         setTitle("您的購物車");
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         DatabaseReference order = FirebaseDatabase.getInstance().getReference("order");
+        DatabaseReference account = FirebaseDatabase.getInstance().getReference("account");
         textView_total_cart = findViewById(R.id.textView_total_cart);
         textView_total_cart.setText("");
         recyclerAdapter =new MyListAdapter();
@@ -65,27 +69,38 @@ public class carActivity extends AppCompatActivity {
             findViewById(R.id.btn_checkOut_car).setVisibility(View.INVISIBLE);
         else
             findViewById(R.id.btn_checkOut_car).setVisibility(View.VISIBLE);
-        findViewById(R.id.btn_checkOut_car).setOnClickListener(v -> {
+        findViewById(R.id.btn_checkOut_car).setOnClickListener(v ->
+                account.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot){
             if (firebaseAuth.getCurrentUser() == null) {
                 startActivity(new Intent(context, Activity_login.class).putExtra("car", 1));
-                Toast.makeText(context,"請先登入",Toast.LENGTH_LONG);
+                Toast.makeText(context, "請先登入", Toast.LENGTH_LONG);
                 return;
-            }if ( ! firebaseAuth.getCurrentUser().isEmailVerified()) {
-                Toast.makeText(context,"請先驗證 E m a i l",Toast.LENGTH_LONG).show();
-                startActivity(new Intent(context,Activity_profile.class));
-            }else {
-                for (Map data:item) {
+            }
+            if (!firebaseAuth.getCurrentUser().isEmailVerified() ||
+                snapshot.child(firebaseAuth.getCurrentUser().getUid()).child("address").getValue() == null ||
+                    snapshot.child(firebaseAuth.getCurrentUser().getUid()).child("phone").getValue() == null) {
+                        Toast.makeText(context, "請先驗證 E m a i l 和完成基本資料", Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(context, Activity_profile.class));
+            } else {
+                for (Map data : item) {
                     data.remove("id");
                     data.remove("price");
-                }item.get(0).put("userID",firebaseAuth.getCurrentUser().getUid());
-                item.get(0).put("orderStatus","1");
+                }
+                item.get(0).put("userID", firebaseAuth.getCurrentUser().getUid());
+                item.get(0).put("orderStatus", "1");
                 order.push().setValue(item);
                 finish();
                 selectedGoods.clear();
-                startActivity(new Intent(context,historyOrderActivity.class));
-                Toast.makeText(context,"下單成功",Toast.LENGTH_LONG).show();
+                startActivity(new Intent(context, historyOrderActivity.class));
+                Toast.makeText(context, "下單成功", Toast.LENGTH_LONG).show();
             }
-        });
+        } @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        }));
 
     }
 
