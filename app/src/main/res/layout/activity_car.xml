@@ -43,7 +43,7 @@
             android:layout_marginTop="30dp"
             android:text="total"
             android:textColor="#000"
-            android:textSize="20sp" />
+            android:textSize="30sp" />
 
         <Button
             android:id="@+id/btn_checkOut_car"
