@@ -53,19 +53,19 @@ public class historyOrderActivity extends AppCompatActivity {
                             StringBuilder name = new StringBuilder();
                             int totalprice =0;
                             for (DataSnapshot goodsData:ds.getChildren()){
-                                name.append(goodsData.child("name").getValue()+"\t\t\t\t\t\t"+
-                                        goodsData.child("num").getValue()+"\t\t\t\t\t\t"+
+                                name.append("品名: "+goodsData.child("name").getValue()+"\n數量: "+
+                                        goodsData.child("num").getValue()+"\n單價: "+
                                         goodsData.child("totalPrice").getValue()+"\n");
                                 totalprice += Integer.parseInt(goodsData.child("totalPrice").getValue().toString());
                             }
                             data.put("name",name);
                             data.put("totalPrice",totalprice);
                             if (ds.child("0").child("orderStatus").getValue().toString().equals("1"))
-                                data.put("orderStatus","等待賣家接受中");
+                                data.put("orderStatus","等待賣家接受中\n");
                             if (ds.child("0").child("orderStatus").getValue().toString().equals("2"))
-                                data.put("orderStatus","訂單已接受，等待賣家出貨中");
+                                data.put("orderStatus","訂單已接受，等待賣家出貨中\n");
                             if (ds.child("0").child("orderStatus").getValue().toString().equals("3"))
-                                data.put("orderStatus","已結束");
+                                data.put("orderStatus","已結束\n");
                             dataList.add(data);
                         }
 
