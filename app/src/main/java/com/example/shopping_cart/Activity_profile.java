@@ -45,12 +45,16 @@ public class Activity_profile extends AppCompatActivity {
         if (firebaseAuth.getCurrentUser().isEmailVerified()) {
             textView_emailVerified_profile.setText("已認證");
             textView_emailVerified_profile.setTextColor(Color.GREEN);
-            btn_getEmailVerified_profile.setVisibility(View.INVISIBLE);
+            btn_getEmailVerified_profile.setText("重設密碼");
+            btn_getEmailVerified_profile.setOnClickListener(v ->
+                    firebaseAuth.sendPasswordResetEmail(firebaseAuth.getCurrentUser().getEmail()).addOnCompleteListener(
+                        task -> Toast.makeText(context,"已寄送重設信件",Toast.LENGTH_LONG).show()
+            ));
         }
         else {
             textView_emailVerified_profile.setText("未認證");
             textView_emailVerified_profile.setTextColor(Color.RED);
-            btn_getEmailVerified_profile.setVisibility(View.VISIBLE);
+            btn_getEmailVerified_profile.setText("取得驗證信");
             btn_getEmailVerified_profile.setOnClickListener(v ->
                     firebaseAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(task -> {
                         if (task.isSuccessful())
