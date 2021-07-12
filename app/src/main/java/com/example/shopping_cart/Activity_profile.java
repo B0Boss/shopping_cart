@@ -71,7 +71,6 @@ public class Activity_profile extends AppCompatActivity {
             firebaseAuth.getCurrentUser().updateProfile(new UserProfileChangeRequest.Builder().
             setDisplayName(editText_name_profile.getText().toString()).build()).addOnCompleteListener(task ->{
                 if (task.isSuccessful()) {
-                    Log.d("Tag", "????????????????");
                     HashMap<String, String> data = new HashMap<>();
                     data.put("Email",firebaseAuth.getCurrentUser().getEmail());
                     data.put("Email_is_checked",firebaseAuth.getCurrentUser().isEmailVerified()+"");

@@ -83,7 +83,7 @@ public class carActivity extends AppCompatActivity {
                     snapshot.child(firebaseAuth.getCurrentUser().getUid()).child("phone").getValue() == null) {
                         Toast.makeText(context, "請先驗證 E m a i l 和完成基本資料", Toast.LENGTH_LONG).show();
                         startActivity(new Intent(context, Activity_profile.class));
-            } else {
+            } else if (selectedGoods.size() != 0){
                 for (Map data : item) {
                     data.remove("price");
                 }
